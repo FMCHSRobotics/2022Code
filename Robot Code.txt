@@ -1,21 +1,77 @@
-﻿#include <kipr/wombat.h>
+main.c
+#include <kipr/wombat.h>
 #include <demo.h>
-
 
 int main()
 {
-    set_servo_position(0, 0);
-    set_servo_position(1, 1300);
+    enable_servo (0);
+    enable_servo(1);
+    enable_servo(2);
+    set_servo_position(0, 812);
+    set_servo_position(1, 720);
     set_servo_position(2, 1000);
     //sets servo to starting position
     drive_straight(100, 5500);
     //moves to wall
-    drive_backwards(50, 500);
-    rotate_left(100, 850);
+    drive_backwards(50, 580);
+    rotate_left(100, 800);
     drive_straight(100, 4000);
     //moves to line 
     find_line(FORWARD);
-    //stops at line
+    //tops at line
     //rest of code will be to grab botguy and return to sample isolation
+    set_servo_position(0,390);
+    set_servo_position(1,2407);
+    rotate_left(100, 450);
     return 0;
 }
+
+
+demo.c
+#include <kipr/wombat.h>
+#include <demo.h>
+
+void drive(int lspeed, int rspeed, int time)
+{
+    motor (LEFT, lspeed);
+    motor (RIGHT, rspeed);
+    msleep (time);
+    ao();
+}
+
+void drive_straight(int speed, int time)
+{
+    drive(speed, speed, time);
+}
+void drive_backwards(int speed, int time)
+{
+    drive_straight(-speed, time);
+}
+void rotate_left(int speed, int time)
+{
+    drive(-speed, speed, time);
+}
+void find_line(int direction)
+{
+    while (analog(TOPHAT) < 3000)
+    {
+        drive_straight(direction * 100, 10);
+    }
+    motor(0,0);
+    motor(1,0);
+    msleep(7);
+}
+
+
+demo.h
+#define LEFT 0
+#define RIGHT 1
+#define FORWARD 1
+#define BACKWARD -1
+#define TOPHAT 0
+
+void drive(int lspeed, int rspeed, int time);
+void drive_straight(int speed, int time);
+void drive_backwards(int speed, int time);
+void rotate_left(int speed, int time);
+void find_line(int direction);
