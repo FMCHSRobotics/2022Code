@@ -1,0 +1,21 @@
+﻿#include <kipr/wombat.h>
+#include <demo.h>
+
+
+int main()
+{
+    set_servo_position(0, 0);
+    set_servo_position(1, 1300);
+    set_servo_position(2, 1000);
+    //sets servo to starting position
+    drive_straight(100, 5500);
+    //moves to wall
+    drive_backwards(50, 500);
+    rotate_left(100, 850);
+    drive_straight(100, 4000);
+    //moves to line 
+    find_line(FORWARD);
+    //stops at line
+    //rest of code will be to grab botguy and return to sample isolation
+    return 0;
+}
